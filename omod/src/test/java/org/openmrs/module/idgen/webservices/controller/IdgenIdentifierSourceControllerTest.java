@@ -6,12 +6,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.idgen.IdentifierSource;
+import org.openmrs.module.idgen.SequentialIdentifierGenerator;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -46,5 +49,16 @@ public class IdgenIdentifierSourceControllerTest {
         verify(identifierSourceService).generateIdentifier(identifierSource, "New HIV Patient");
     }
 
+    @Test
+    public void shouldReturnAllIdentifierSources() throws Exception {
+        when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
+        ArrayList<IdentifierSource> identifierSources = new ArrayList<IdentifierSource>() {{
+            this.add(new SequentialIdentifierGenerator());
+        }};
+        when(identifierSourceService.getAllIdentifierSources(false)).thenReturn(identifierSources);
+        String resultIdentifierResources = controller.getAllIdentifierSources();
 
+        System.out.println(resultIdentifierResources);
+        assertThat(resultIdentifierResources, notNullValue());
+    }
 }
