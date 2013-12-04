@@ -25,7 +25,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 public class IdgenIdentifierSourceControllerTest {
 
     @Mock
-    private IdentifierSource identifierSource;
+    private SequentialIdentifierGenerator identifierSource;
     @Mock
     private IdentifierSourceService identifierSourceService;
 
@@ -41,7 +41,7 @@ public class IdgenIdentifierSourceControllerTest {
     @Test
     public void shouldGenerateIdentifier() throws Exception {
         when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
-        when(identifierSource.getName()).thenReturn("OPD");
+        when(identifierSource.getPrefix()).thenReturn("OPD");
         when(identifierSourceService.getAllIdentifierSources(false)).thenReturn(new ArrayList<IdentifierSource>() {{
             this.add(identifierSource);
         }});
