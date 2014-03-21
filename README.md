@@ -1,7 +1,7 @@
 openmrs-module-idgen-webservices
 ================================
 
-[![Build Status](https://travis-ci.org/bhamni/openmrs-module-idgen-webservices.svg?branch=master)](https://travis-ci.org/bhamni/openmrs-module-idgen-webservices)
+[![Build Status](https://travis-ci.org/Bhamni/openmrs-module-idgen-webservices.svg?branch=master)](https://travis-ci.org/Bhamni/openmrs-module-idgen-webservices)
 
 *Deploy*
 * `mvn clean install` to generate the artifacts
