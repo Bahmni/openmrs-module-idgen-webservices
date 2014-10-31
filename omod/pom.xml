@@ -39,6 +39,13 @@
         </dependency>
         <dependency>
             <groupId>org.openmrs.module</groupId>
+            <artifactId>webservices.rest-omod-common</artifactId>
+            <version>${webservicesRestModuleVersion}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
             <artifactId>idgen-api</artifactId>
             <version>${idGenVersion}</version>
             <scope>provided</scope>
@@ -53,6 +60,13 @@
         <dependency>
             <groupId>org.openmrs.web</groupId>
             <artifactId>openmrs-web</artifactId>
+            <version>${openmrsCoreVersion}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.api</groupId>
+            <artifactId>openmrs-api</artifactId>
             <version>${openmrsCoreVersion}</version>
             <type>test-jar</type>
             <scope>test</scope>

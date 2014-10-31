@@ -1,6 +1,6 @@
-#!/bin/sh -x
+#!/bin/sh -ex
 
-mvn clean install
+mvn clean install -DskipTests
 
 PATH_OF_CURRENT_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $PATH_OF_CURRENT_SCRIPT/vagrant/vagrant_functions.sh

@@ -1,4 +1,4 @@
-package org.openmrs.module.idgen.webservices;
+package org.openmrs.module.idgen.webservices.resource;
 
 /**
  * The contents of this file are subject to the OpenMRS Public License
@@ -14,22 +14,28 @@ package org.openmrs.module.idgen.webservices;
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openmrs.module.BaseModuleActivator;
+import org.junit.Before;
+import org.openmrs.module.webservices.rest.web.v1_0.controller.MainResourceControllerTest;
 
-public class Activator extends BaseModuleActivator {
-    
-    private Log log = LogFactory.getLog(this.getClass());
+public class IdentifierSourceResourceControllerTest extends MainResourceControllerTest {
 
-    @Override
-    public void started() {
-        log.info("Started the idgen-webservices module");
+    @Before
+    public void setUp() throws Exception {
+        executeDataSet("identfierSource.xml");
     }
 
     @Override
-    public void stopped() {
-        log.info("Stopped the idgen-webservices module");
+    public String getURI() {
+        return "identifiersource";
     }
-    
+
+    @Override
+    public String getUuid() {
+        return "a01e36e1-a2a1-11e3-af88-005056821db0";
+    }
+
+    @Override
+    public long getAllCount() {
+        return 1;
+    }
 }
