@@ -1,8 +1,4 @@
 openmrs-module-idgen-webservices
 ================================
 
-[![Build Status](https://travis-ci.org/Bhamni/openmrs-module-idgen-webservices.svg?branch=master)](https://travis-ci.org/Bhamni/openmrs-module-idgen-webservices)
-
-*Deploy*
-* `mvn clean install` to generate the artifacts
-* `./scripts/vagrant-deploy.sh` to deploy the generated omod to your vagrant installation
+Web Services for [openmrs-module-idgen](https://github.com/openmrs/openmrs-module-idgen)
