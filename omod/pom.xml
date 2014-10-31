@@ -45,12 +45,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.openmrs.module</groupId>
-            <artifactId>idgen-api</artifactId>
-            <version>${idGenVersion}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.openmrs.test</groupId>
             <artifactId>openmrs-test</artifactId>
             <version>${openmrsCoreVersion}</version>

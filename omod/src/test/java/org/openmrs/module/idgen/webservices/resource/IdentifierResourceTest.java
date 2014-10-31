@@ -17,7 +17,7 @@ package org.openmrs.module.idgen.webservices.resource;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.openmrs.module.idgen.Identifier;
+import org.openmrs.module.idgen.webservices.Identifier;
 import org.openmrs.module.idgen.IdentifierSource;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
 

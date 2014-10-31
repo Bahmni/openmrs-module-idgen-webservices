@@ -15,7 +15,7 @@ package org.openmrs.module.idgen.webservices.resource;
  */
 
 import org.openmrs.api.context.Context;
-import org.openmrs.module.idgen.Identifier;
+import org.openmrs.module.idgen.webservices.Identifier;
 import org.openmrs.module.idgen.IdentifierSource;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
 import org.openmrs.module.webservices.rest.web.RequestContext;
@@ -29,7 +29,7 @@ import org.openmrs.module.webservices.rest.web.response.ResourceDoesNotSupportOp
 import org.openmrs.module.webservices.rest.web.response.ResponseException;
 
 /**
- * {@link org.openmrs.module.webservices.rest.web.annotation.Resource} for {@link org.openmrs.module.idgen.Identifier}, supporting standard CRUD operations
+ * {@link org.openmrs.module.webservices.rest.web.annotation.Resource} for {@link org.openmrs.module.idgen.webservices.Identifier}, supporting standard CRUD operations
  */
 @Resource(name = RestConstants.VERSION_1 + "/identifier", supportedClass = Identifier.class, supportedOpenmrsVersions = {"1.9.*", "1.10.*"})
 public class IdentifierResource extends DelegatingCrudResource<Identifier> {
@@ -45,12 +45,12 @@ public class IdentifierResource extends DelegatingCrudResource<Identifier> {
     }
 
     @Override
-    public Identifier getByUniqueId(String s) {
+    public Identifier getByUniqueId(String uniqueId) {
         throw new ResourceDoesNotSupportOperationException();
     }
 
     @Override
-    protected void delete(Identifier identifier, String s, RequestContext requestContext) throws ResponseException {
+    protected void delete(Identifier identifier, String reason, RequestContext requestContext) throws ResponseException {
         throw new ResourceDoesNotSupportOperationException();
     }
 

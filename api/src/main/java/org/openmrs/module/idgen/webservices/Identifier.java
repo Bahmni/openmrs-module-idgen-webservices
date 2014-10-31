@@ -1,4 +1,6 @@
-package org.openmrs.module.idgen;
+package org.openmrs.module.idgen.webservices;
+
+import org.openmrs.module.idgen.IdentifierSource;
 
 /**
  * The contents of this file are subject to the OpenMRS Public License

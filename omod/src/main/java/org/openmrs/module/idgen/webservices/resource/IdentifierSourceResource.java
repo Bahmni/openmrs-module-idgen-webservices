@@ -41,12 +41,12 @@ public class IdentifierSourceResource extends DelegatingCrudResource<IdentifierS
     }
 
     @Override
-    public IdentifierSource getByUniqueId(String s) {
-        return Context.getService(IdentifierSourceService.class).getIdentifierSourceByUuid(s);
+    public IdentifierSource getByUniqueId(String uniqueId) {
+        return Context.getService(IdentifierSourceService.class).getIdentifierSourceByUuid(uniqueId);
     }
 
     @Override
-    protected void delete(IdentifierSource identifierSource, String s, RequestContext requestContext) throws ResponseException {
+    protected void delete(IdentifierSource identifierSource, String reason, RequestContext requestContext) throws ResponseException {
         throw new ResourceDoesNotSupportOperationException();
     }
 
