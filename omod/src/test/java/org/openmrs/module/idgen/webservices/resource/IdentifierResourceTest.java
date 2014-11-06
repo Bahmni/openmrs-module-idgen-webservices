@@ -1,5 +1,3 @@
-package org.openmrs.module.idgen.webservices.resource;
-
 /**
  * The contents of this file are subject to the OpenMRS Public License
  * Version 1.0 (the "License"); you may not use this file except in
@@ -13,6 +11,8 @@ package org.openmrs.module.idgen.webservices.resource;
  *
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
+
+package org.openmrs.module.idgen.webservices.resource;
 
 import org.junit.Before;
 import org.junit.Test;

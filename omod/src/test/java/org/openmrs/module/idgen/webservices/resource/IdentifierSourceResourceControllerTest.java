@@ -1,5 +1,3 @@
-package org.openmrs.module.idgen.webservices.resource;
-
 /**
  * The contents of this file are subject to the OpenMRS Public License
  * Version 1.0 (the "License"); you may not use this file except in
@@ -14,7 +12,10 @@ package org.openmrs.module.idgen.webservices.resource;
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
 
+package org.openmrs.module.idgen.webservices.resource;
+
 import org.junit.Before;
+import org.openmrs.module.idgen.webservices.IdgenWebServicesConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.MainResourceControllerTest;
 
 public class IdentifierSourceResourceControllerTest extends MainResourceControllerTest {
@@ -26,7 +27,7 @@ public class IdentifierSourceResourceControllerTest extends MainResourceControll
 
     @Override
     public String getURI() {
-        return "identifiersource";
+        return IdgenWebServicesConstants.MODULE_ID + "/identifiersource";
     }
 
     @Override

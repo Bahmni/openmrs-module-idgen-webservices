@@ -1,7 +1,3 @@
-package org.openmrs.module.idgen.webservices;
-
-import org.openmrs.module.idgen.IdentifierSource;
-
 /**
  * The contents of this file are subject to the OpenMRS Public License
  * Version 1.0 (the "License"); you may not use this file except in
@@ -15,6 +11,10 @@ import org.openmrs.module.idgen.IdentifierSource;
  *
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
+
+package org.openmrs.module.idgen.webservices;
+
+import org.openmrs.module.idgen.IdentifierSource;
 
 public class Identifier {
     private String value;

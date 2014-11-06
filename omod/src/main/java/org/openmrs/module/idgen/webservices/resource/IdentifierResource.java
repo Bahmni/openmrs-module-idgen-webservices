@@ -1,5 +1,3 @@
-package org.openmrs.module.idgen.webservices.resource;
-
 /**
  * The contents of this file are subject to the OpenMRS Public License
  * Version 1.0 (the "License"); you may not use this file except in
@@ -14,10 +12,13 @@ package org.openmrs.module.idgen.webservices.resource;
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
 
+package org.openmrs.module.idgen.webservices.resource;
+
 import org.openmrs.api.context.Context;
 import org.openmrs.module.idgen.webservices.Identifier;
 import org.openmrs.module.idgen.IdentifierSource;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
+import org.openmrs.module.idgen.webservices.IdgenWebServicesConstants;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.PropertySetter;
@@ -31,7 +32,7 @@ import org.openmrs.module.webservices.rest.web.response.ResponseException;
 /**
  * {@link org.openmrs.module.webservices.rest.web.annotation.Resource} for {@link org.openmrs.module.idgen.webservices.Identifier}, supporting standard CRUD operations
  */
-@Resource(name = RestConstants.VERSION_1 + "/identifier", supportedClass = Identifier.class, supportedOpenmrsVersions = {"1.9.*", "1.10.*"})
+@Resource(name = RestConstants.VERSION_1 + "/"+ IdgenWebServicesConstants.MODULE_ID +"/identifier", supportedClass = Identifier.class, supportedOpenmrsVersions = {"1.9.*", "1.10.*"})
 public class IdentifierResource extends DelegatingCrudResource<Identifier> {
 
     private IdentifierSourceService identifierSourceService;
