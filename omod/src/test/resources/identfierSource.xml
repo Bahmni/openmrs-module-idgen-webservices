@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <patient_identifier_type patient_identifier_type_id="1" name="Test Id" uuid="a0195d4a-a2a1-11e3-af88-005056821db0" creator="1" date_created="2014-03-03 00:00:00"/>
+    <idgen_identifier_source id="1" name="OPD" uuid="a01e36e1-a2a1-11e3-af88-005056821db0" identifier_type="1" creator="1" date_created="2014-03-03 00:00:00" retired="0"/>
+    <idgen_seq_id_gen id="1" first_identifier_base="1" prefix="OPD" base_character_set="0123456789"/>
+</dataset>
