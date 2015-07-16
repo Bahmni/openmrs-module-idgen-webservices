@@ -41,7 +41,7 @@ public class IdgenIdentifierSourceControllerTest {
     @Test
     public void shouldGenerateIdentifier() throws Exception {
         when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
-        when(identifierSource.getPrefix()).thenReturn("OPD");
+        when(identifierSource.getName()).thenReturn("OPD");
         when(identifierSourceService.getAllIdentifierSources(false)).thenReturn(new ArrayList<IdentifierSource>() {{
             this.add(identifierSource);
         }});

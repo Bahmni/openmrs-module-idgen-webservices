@@ -27,7 +27,7 @@ public class IdgenIdentifierSourceController extends BaseRestController {
         IdentifierSourceService identifierSourceService = Context.getService(IdentifierSourceService.class);
         List<IdentifierSource> allIdentifierSources = identifierSourceService.getAllIdentifierSources(false);
         for (IdentifierSource identifierSource : allIdentifierSources) {
-            if (((SequentialIdentifierGenerator)identifierSource).getPrefix().equals(request.getIdentifierSourceName())) {
+            if (identifierSource.getName().equals(request.getIdentifierSourceName())) {
                 return identifierSourceService.generateIdentifier(identifierSource, request.getComment());
             }
         }
