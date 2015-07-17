@@ -1,10 +1,12 @@
 package org.openmrs.module.idgen.webservices.controller;
 
+import org.openmrs.api.APIAuthenticationException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.idgen.IdentifierSource;
 import org.openmrs.module.idgen.SequentialIdentifierGenerator;
 import org.openmrs.module.idgen.serialization.ObjectMapperRepository;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
+import org.openmrs.module.idgen.webservices.IdgenWebServicesConstants;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,11 +29,10 @@ public class IdgenIdentifierSourceController extends BaseRestController {
     public String generateIdentifier(@RequestBody GenerateIdentifierRequest request) {
         IdentifierSourceService identifierSourceService = Context.getService(IdentifierSourceService.class);
         List<IdentifierSource> allIdentifierSources = identifierSourceService.getAllIdentifierSources(false);
-        for (IdentifierSource identifierSource : allIdentifierSources) {
-            if (identifierSource.getName().equals(request.getIdentifierSourceName())) {
-                return identifierSourceService.generateIdentifier(identifierSource, request.getComment());
-            }
-        }
+        IdentifierSource identifierSource = getIdentifierSource(allIdentifierSources, request.getIdentifierSourceName());
+        if(identifierSource != null)
+            return identifierSourceService.generateIdentifier(identifierSource, request.getComment());
+
         return null;
     }
 
@@ -52,6 +54,45 @@ public class IdgenIdentifierSourceController extends BaseRestController {
 
         ObjectMapperRepository objectMapperRepository = new ObjectMapperRepository();
         return objectMapperRepository.writeValueAsString(result);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/latestidentifier")
+    @ResponseBody
+    public String getSequenceValue(@RequestParam(value = "sourceName") String sourceName) {
+        IdentifierSourceService identifierSourceService = Context.getService(IdentifierSourceService.class);
+        List<IdentifierSource> allIdentifierSources = identifierSourceService.getAllIdentifierSources(false);
+        IdentifierSource identifierSourceFromRequest = getIdentifierSource(allIdentifierSources, sourceName);
+        if(identifierSourceFromRequest != null){
+            Long sequenceValue = identifierSourceService.getSequenceValue((SequentialIdentifierGenerator) identifierSourceFromRequest);
+            return sequenceValue.toString();
+        }
+        return null;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/latestidentifier")
+    @ResponseBody
+    public Long saveSequenceValue(@RequestBody SetLatestIdentifierRequest request) {
+        IdentifierSourceService identifierSourceService = Context.getService(IdentifierSourceService.class);
+        List<IdentifierSource> allIdentifierSources = identifierSourceService.getAllIdentifierSources(false);
+        IdentifierSource identifierSourceFromRequest = getIdentifierSource(allIdentifierSources, request.getSourceName());
+        if(!Context.hasPrivilege(IdgenWebServicesConstants.PRIV_MANAGE_IDENTIFIER_SEQUENCE)){
+            throw new APIAuthenticationException(IdgenWebServicesConstants.PRIV_MANAGE_IDENTIFIER_SEQUENCE);
+        }
+        if (identifierSourceFromRequest != null) {
+            identifierSourceService.saveSequenceValue((SequentialIdentifierGenerator) identifierSourceFromRequest, request.getIdentifier());
+            return request.getIdentifier();
+        }
+        return null;
+    }
+
+    private IdentifierSource getIdentifierSource(List<IdentifierSource> allIdentifierSources, String sourceName) {
+        IdentifierSource identifierSourceFromRequest = null;
+        for (IdentifierSource identifierSource : allIdentifierSources) {
+            if (identifierSource.getName().equals(sourceName)) {
+                identifierSourceFromRequest = identifierSource;
+            }
+        }
+        return identifierSourceFromRequest;
     }
 }
 

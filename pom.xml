@@ -15,7 +15,7 @@
     <properties>
         <openmrsCoreVersion>1.9.4</openmrsCoreVersion>
         <webservicesRestModuleVersion>2.6</webservicesRestModuleVersion>
-        <idGenVersion>2.6</idGenVersion>
+        <idGenVersion>4.0-SNAPSHOT</idGenVersion>
     </properties>
 
     <scm>
