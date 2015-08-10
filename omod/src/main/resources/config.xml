@@ -9,7 +9,7 @@
 	<package>@MODULE_PACKAGE@</package>
 	<author>ThoughtWorks</author>
 	<description>
-		Web services for idgen module  
+		Web services for idgen module
 		See <a href="http://openmrs.org/wiki/Idgen_Module">http://openmrs.org/wiki/Idgen_Module</a> for more information
 	</description>
 	<activator>@MODULE_PACKAGE@.Activator</activator>	
@@ -19,6 +19,11 @@
         <require_module>org.openmrs.module.webservices.rest</require_module>
         <require_module>org.openmrs.module.idgen</require_module>
     </require_modules>
+
+    <privilege>
+        <name>Manage Identifier Sequence</name>
+        <description>Allows user to update Identifier sequence</description>
+    </privilege>
 
 </module>
 

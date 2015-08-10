@@ -1,6 +1,5 @@
-package org.openmrs.module.idgen.webservices;
+package org.openmrs.util;
 
-public class IdgenWebServicesConstants {
-
+public class PrivilegeConstants {
     public static final String PRIV_MANAGE_IDENTIFIER_SEQUENCE = "Manage Identifier Sequence";
 }
