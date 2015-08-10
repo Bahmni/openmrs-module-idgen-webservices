@@ -1,98 +1,48 @@
 package org.openmrs.module.idgen.webservices.controller;
 
-import org.openmrs.api.APIAuthenticationException;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.idgen.IdentifierSource;
-import org.openmrs.module.idgen.SequentialIdentifierGenerator;
 import org.openmrs.module.idgen.serialization.ObjectMapperRepository;
-import org.openmrs.module.idgen.service.IdentifierSourceService;
-import org.openmrs.module.idgen.webservices.IdgenWebServicesConstants;
+import org.openmrs.module.idgen.webservices.services.IdentifierSourceServiceWrapper;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping(value = "/rest/" + RestConstants.VERSION_1 + "/idgen")
 public class IdgenIdentifierSourceController extends BaseRestController {
 
+    @Autowired
+    private IdentifierSourceServiceWrapper identifierSourceServiceWrapper;
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public String generateIdentifier(@RequestBody GenerateIdentifierRequest request) {
-        IdentifierSourceService identifierSourceService = Context.getService(IdentifierSourceService.class);
-        List<IdentifierSource> allIdentifierSources = identifierSourceService.getAllIdentifierSources(false);
-        IdentifierSource identifierSource = getIdentifierSource(allIdentifierSources, request.getIdentifierSourceName());
-        if(identifierSource != null)
-            return identifierSourceService.generateIdentifier(identifierSource, request.getComment());
-
-        return null;
+    public String generateIdentifier(@RequestBody GenerateIdentifierRequest request) throws Exception {
+        return identifierSourceServiceWrapper.generateIdentifier(request.getIdentifierSourceName(), request.getComment());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/identifiersources")
     @ResponseBody
     public String getAllIdentifierSources() throws IOException {
-        IdentifierSourceService identifierSourceService = Context.getService(IdentifierSourceService.class);
-        List<IdentifierSource> allIdentifierSources = identifierSourceService.getAllIdentifierSources(false);
-
-        List<org.openmrs.module.idgen.contract.IdentifierSource> result = new ArrayList<org.openmrs.module.idgen.contract.IdentifierSource>();
-
-        for (IdentifierSource identifierSource : allIdentifierSources) {
-            String prefix = null;
-            if (identifierSource instanceof SequentialIdentifierGenerator) {
-                prefix = ((SequentialIdentifierGenerator) (identifierSource)).getPrefix();
-            }
-            result.add(new org.openmrs.module.idgen.contract.IdentifierSource(identifierSource.getUuid(), identifierSource.getName(), prefix));
-        }
-
+        List<org.openmrs.module.idgen.contract.IdentifierSource> result = identifierSourceServiceWrapper.getAllIdentifierSources();
         ObjectMapperRepository objectMapperRepository = new ObjectMapperRepository();
         return objectMapperRepository.writeValueAsString(result);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/latestidentifier")
     @ResponseBody
-    public String getSequenceValue(@RequestParam(value = "sourceName") String sourceName) {
-        IdentifierSourceService identifierSourceService = Context.getService(IdentifierSourceService.class);
-        List<IdentifierSource> allIdentifierSources = identifierSourceService.getAllIdentifierSources(false);
-        IdentifierSource identifierSourceFromRequest = getIdentifierSource(allIdentifierSources, sourceName);
-        if(identifierSourceFromRequest != null){
-            Long sequenceValue = identifierSourceService.getSequenceValue((SequentialIdentifierGenerator) identifierSourceFromRequest);
-            return sequenceValue.toString();
-        }
-        return null;
+    public String getSequenceValue(@RequestParam(value = "sourceName") String sourceName) throws Exception {
+        return identifierSourceServiceWrapper.getSequenceValue(sourceName);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/latestidentifier")
     @ResponseBody
-    public Long saveSequenceValue(@RequestBody SetLatestIdentifierRequest request) {
-        IdentifierSourceService identifierSourceService = Context.getService(IdentifierSourceService.class);
-        List<IdentifierSource> allIdentifierSources = identifierSourceService.getAllIdentifierSources(false);
-        IdentifierSource identifierSourceFromRequest = getIdentifierSource(allIdentifierSources, request.getSourceName());
-        if(!Context.hasPrivilege(IdgenWebServicesConstants.PRIV_MANAGE_IDENTIFIER_SEQUENCE)){
-            throw new APIAuthenticationException(IdgenWebServicesConstants.PRIV_MANAGE_IDENTIFIER_SEQUENCE);
-        }
-        if (identifierSourceFromRequest != null) {
-            identifierSourceService.saveSequenceValue((SequentialIdentifierGenerator) identifierSourceFromRequest, request.getIdentifier());
-            return request.getIdentifier();
-        }
-        return null;
-    }
-
-    private IdentifierSource getIdentifierSource(List<IdentifierSource> allIdentifierSources, String sourceName) {
-        IdentifierSource identifierSourceFromRequest = null;
-        for (IdentifierSource identifierSource : allIdentifierSources) {
-            if (identifierSource.getName().equals(sourceName)) {
-                identifierSourceFromRequest = identifierSource;
-            }
-        }
-        return identifierSourceFromRequest;
+    public Long saveSequenceValue(@RequestBody SetLatestIdentifierRequest request) throws Exception {
+        identifierSourceServiceWrapper.saveSequenceValue(request.getIdentifier(), request.getSourceName());
+        return request.getIdentifier();
     }
 }
 

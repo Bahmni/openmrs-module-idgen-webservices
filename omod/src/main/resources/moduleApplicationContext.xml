@@ -3,4 +3,22 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
   		    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="identifierSourceServiceWrapperTarget"
+          class="org.openmrs.module.idgen.webservices.services.IdentifierSourceServiceWrapperImpl">
+    </bean>
+
+    <bean id="identifierSourceServiceWrapper" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager">
+            <ref bean="transactionManager"/>
+        </property>
+        <property name="target" ref="identifierSourceServiceWrapperTarget"/>
+        <property name="preInterceptors">
+            <ref bean="serviceInterceptors"/>
+        </property>
+        <property name="transactionAttributeSource">
+            <ref bean="transactionAttributeSource"/>
+        </property>
+    </bean>
+
 </beans>
