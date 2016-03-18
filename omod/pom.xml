@@ -24,7 +24,6 @@
             <groupId>org.openmrs.module</groupId>
             <artifactId>idgen-webservices-api</artifactId>
             <version>${project.parent.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.openmrs.web</groupId>
