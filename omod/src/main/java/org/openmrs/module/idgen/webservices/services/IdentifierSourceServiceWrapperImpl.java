@@ -1,5 +1,6 @@
 package org.openmrs.module.idgen.webservices.services;
 
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.idgen.IdentifierSource;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Transactional
 public class IdentifierSourceServiceWrapperImpl extends BaseOpenmrsService implements IdentifierSourceServiceWrapper {
@@ -39,11 +41,16 @@ public class IdentifierSourceServiceWrapperImpl extends BaseOpenmrsService imple
     @Override
     public List<org.openmrs.module.idgen.contract.IdentifierSource> getAllIdentifierSources() {
         IdentifierSourceService identifierSourceService = Context.getService(IdentifierSourceService.class);
-        List<IdentifierSource> allIdentifierSources = identifierSourceService.getAllIdentifierSources(false);
+        String primaryIdentifierTypeUuid = Context.getAdministrationService().getGlobalProperty("emr.primaryIdentifierType");
+        PatientIdentifierType primaryIdentifierType = Context.getPatientService().getPatientIdentifierTypeByUuid(primaryIdentifierTypeUuid);
+
+        Map<PatientIdentifierType, List<IdentifierSource>> identifierSourcesByType = identifierSourceService.getIdentifierSourcesByType(false);
+
+        List<IdentifierSource> primaryIdentifierSourcesList = identifierSourcesByType.get(primaryIdentifierType);
 
         List<org.openmrs.module.idgen.contract.IdentifierSource> result = new ArrayList<org.openmrs.module.idgen.contract.IdentifierSource>();
 
-        for (IdentifierSource identifierSource : allIdentifierSources) {
+        for (IdentifierSource identifierSource : primaryIdentifierSourcesList) {
             String prefix = null;
             if (identifierSource instanceof SequentialIdentifierGenerator) {
                 prefix = ((SequentialIdentifierGenerator) (identifierSource)).getPrefix();

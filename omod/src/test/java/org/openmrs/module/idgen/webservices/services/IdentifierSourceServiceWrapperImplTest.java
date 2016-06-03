@@ -4,6 +4,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.openmrs.PatientIdentifier;
+import org.openmrs.PatientIdentifierType;
+import org.openmrs.api.AdministrationService;
+import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.idgen.IdentifierSource;
 import org.openmrs.module.idgen.SequentialIdentifierGenerator;
@@ -12,10 +16,11 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -28,6 +33,10 @@ public class IdentifierSourceServiceWrapperImplTest {
     private SequentialIdentifierGenerator identifierSource;
     @Mock
     private IdentifierSourceService identifierSourceService;
+    @Mock
+    private AdministrationService administrationService;
+    @Mock
+    private PatientService patientService;
 
     private IdentifierSourceServiceWrapperImpl identifierSourceServiceWrapperImpl;
 
@@ -85,24 +94,44 @@ public class IdentifierSourceServiceWrapperImplTest {
     }
 
     @Test
-    public void shouldGetAllIdentifierSources() {
+    public void shouldGetAllIdentifierSourcesBasedOnPrimaryIdentifierType() {
         when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
 
-        ArrayList<IdentifierSource> identifierSources = new ArrayList<IdentifierSource>();
+        when(Context.getAdministrationService()).thenReturn(administrationService);
+        when(administrationService.getGlobalProperty("emr.primaryIdentifierType")).thenReturn("dead-cafe");
+        when(Context.getPatientService()).thenReturn(patientService);
+        PatientIdentifierType patientIdentifierType = new PatientIdentifierType(1);
+        patientIdentifierType.setName("abcd");
+        PatientIdentifierType patientIdentifierType2 = new PatientIdentifierType(1);
+        patientIdentifierType2.setName("abcd");
+        when(patientService.getPatientIdentifierTypeByUuid("dead-cafe")).thenReturn(patientIdentifierType2);
+
+        Map<PatientIdentifierType, List<IdentifierSource>> identifierSourcesByType = new HashMap<PatientIdentifierType, List<IdentifierSource>>();
+
+        List<IdentifierSource> identifierSources = new ArrayList<IdentifierSource>();
         SequentialIdentifierGenerator sequentialIdentifierGenerator = new SequentialIdentifierGenerator();
-        sequentialIdentifierGenerator.setName("name");
-        sequentialIdentifierGenerator.setUuid("uuid");
+        sequentialIdentifierGenerator.setName("GAN");
+        sequentialIdentifierGenerator.setUuid("alive-cafe");
         sequentialIdentifierGenerator.setPrefix("GAN");
         identifierSources.add(sequentialIdentifierGenerator);
+        identifierSourcesByType.put(patientIdentifierType, identifierSources);
 
-        when(identifierSourceService.getAllIdentifierSources(false)).thenReturn(identifierSources);
+        List<IdentifierSource> identifierSources2 = new ArrayList<IdentifierSource>();
+        SequentialIdentifierGenerator sequentialIdentifierGenerator2 = new SequentialIdentifierGenerator();
+        sequentialIdentifierGenerator2.setName("OMRS");
+        sequentialIdentifierGenerator2.setUuid("dead-cafe");
+        sequentialIdentifierGenerator2.setPrefix("OMRS");
+        identifierSources2.add(sequentialIdentifierGenerator2);
+        identifierSourcesByType.put(patientIdentifierType2, identifierSources2);
+
+        when(identifierSourceService.getIdentifierSourcesByType(false)).thenReturn(identifierSourcesByType);
 
         List<org.openmrs.module.idgen.contract.IdentifierSource> allIdentifierSources = identifierSourceServiceWrapperImpl.getAllIdentifierSources();
 
         assertEquals(allIdentifierSources.size(), 1);
-        assertEquals("name",(allIdentifierSources.get(0).getName()));
-        assertEquals("uuid",(allIdentifierSources.get(0).getUuid()));
-        assertEquals("GAN",(allIdentifierSources.get(0).getPrefix()));
+        assertEquals("OMRS",(allIdentifierSources.get(0).getName()));
+        assertEquals("dead-cafe",(allIdentifierSources.get(0).getUuid()));
+        assertEquals("OMRS",(allIdentifierSources.get(0).getPrefix()));
     }
 
 }
