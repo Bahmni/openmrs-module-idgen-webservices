@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -61,6 +62,17 @@ public class IdentifierSourceServiceWrapperImplTest {
     }
 
     @Test
+    public void shouldGenerateIdentifierUsingIdentifierSourceUuid() throws Exception {
+        when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
+        when(identifierSourceService.getIdentifierSourceByUuid("dead-cafe")).thenReturn(identifierSource);
+
+        identifierSourceServiceWrapperImpl.generateIdentifierUsingIdentifierSourceUuid("dead-cafe", "");
+
+        verify(identifierSourceService).generateIdentifier(identifierSource, "");
+        verify(identifierSourceService).getIdentifierSourceByUuid("dead-cafe");
+    }
+
+    @Test
     public void shouldGetSequenceValue() throws Exception {
         when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
 
@@ -73,6 +85,22 @@ public class IdentifierSourceServiceWrapperImplTest {
         when(identifierSourceService.getSequenceValue(sequentialIdentifierGenerator)).thenReturn((long)123456);
 
         String identifier = identifierSourceServiceWrapperImpl.getSequenceValue("GAN");
+        verify(identifierSourceService).getSequenceValue(sequentialIdentifierGenerator);
+        assertEquals("123456", identifier);
+    }
+
+    @Test
+    public void shouldGetSequenceValueUsingIdentifierSourceUuid() throws Exception {
+        when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
+
+        SequentialIdentifierGenerator sequentialIdentifierGenerator = new SequentialIdentifierGenerator();
+        sequentialIdentifierGenerator.setName("GAN");
+
+        when(identifierSourceService.getIdentifierSourceByUuid("dead-cafe")).thenReturn(sequentialIdentifierGenerator);
+        when(identifierSourceService.getSequenceValue(sequentialIdentifierGenerator)).thenReturn((long)123456);
+
+        String identifier = identifierSourceServiceWrapperImpl.getSequenceValueUsingIdentifierSourceUuid("dead-cafe");
+        verify(identifierSourceService, times(1)).getIdentifierSourceByUuid("dead-cafe");
         verify(identifierSourceService).getSequenceValue(sequentialIdentifierGenerator);
         assertEquals("123456", identifier);
     }
@@ -91,6 +119,42 @@ public class IdentifierSourceServiceWrapperImplTest {
         Long identifier = identifierSourceServiceWrapperImpl.saveSequenceValue((long) 1234567, "GAN");
         verify(identifierSourceService).saveSequenceValue(sequentialIdentifierGenerator, (long) 1234567);
         assertEquals("1234567", identifier.toString());
+    }
+
+    @Test
+    public void shouldSaveSequenceValueUsingIdentifierSourceUuid() throws Exception {
+        when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
+
+        SequentialIdentifierGenerator sequentialIdentifierGenerator = new SequentialIdentifierGenerator();
+        sequentialIdentifierGenerator.setName("GAN");
+
+        when(identifierSourceService.getIdentifierSourceByUuid("dead-cafe")).thenReturn(sequentialIdentifierGenerator);
+
+        Long identifier = identifierSourceServiceWrapperImpl.saveSequenceValueUsingIdentifierSourceUuid((long) 1234567, "dead-cafe");
+        verify(identifierSourceService).saveSequenceValue(sequentialIdentifierGenerator, (long) 1234567);
+        assertEquals("1234567", identifier.toString());
+    }
+
+
+    @Test
+    public void shouldGetAllIdentifierSources() {
+        when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
+
+        ArrayList<IdentifierSource> identifierSources = new ArrayList<IdentifierSource>();
+        SequentialIdentifierGenerator sequentialIdentifierGenerator = new SequentialIdentifierGenerator();
+        sequentialIdentifierGenerator.setName("name");
+        sequentialIdentifierGenerator.setUuid("uuid");
+        sequentialIdentifierGenerator.setPrefix("GAN");
+        identifierSources.add(sequentialIdentifierGenerator);
+
+        when(identifierSourceService.getAllIdentifierSources(false)).thenReturn(identifierSources);
+
+        List<org.openmrs.module.idgen.contract.IdentifierSource> allIdentifierSources = identifierSourceServiceWrapperImpl.getAllIdentifierSources();
+
+        assertEquals(allIdentifierSources.size(), 1);
+        assertEquals("name",(allIdentifierSources.get(0).getName()));
+        assertEquals("uuid",(allIdentifierSources.get(0).getUuid()));
+        assertEquals("GAN",(allIdentifierSources.get(0).getPrefix()));
     }
 
     @Test
@@ -126,7 +190,7 @@ public class IdentifierSourceServiceWrapperImplTest {
 
         when(identifierSourceService.getIdentifierSourcesByType(false)).thenReturn(identifierSourcesByType);
 
-        List<org.openmrs.module.idgen.contract.IdentifierSource> allIdentifierSources = identifierSourceServiceWrapperImpl.getAllIdentifierSources();
+        List<org.openmrs.module.idgen.contract.IdentifierSource> allIdentifierSources = identifierSourceServiceWrapperImpl.getAllIdentifierSourcesOfPrimaryIdentifierType();
 
         assertEquals(allIdentifierSources.size(), 1);
         assertEquals("OMRS",(allIdentifierSources.get(0).getName()));

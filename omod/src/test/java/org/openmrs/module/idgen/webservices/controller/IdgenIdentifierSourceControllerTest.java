@@ -22,13 +22,13 @@ public class IdgenIdentifierSourceControllerTest {
     private IdentifierSourceServiceWrapper identifierSourceServiceWrapper;
 
     @Test
-    public void shouldGetAllIdentifierSources() throws Exception {
+    public void shouldGetAllIdentifierSourcesOfPrimaryIdentifierType() throws Exception {
         List<org.openmrs.module.idgen.contract.IdentifierSource> identifierSources = new ArrayList<org.openmrs.module.idgen.contract.IdentifierSource>() {{
             this.add(new org.openmrs.module.idgen.contract.IdentifierSource("uuid", "name", "GAN"));
         }};
-        when(identifierSourceServiceWrapper.getAllIdentifierSources()).thenReturn(identifierSources);
+        when(identifierSourceServiceWrapper.getAllIdentifierSourcesOfPrimaryIdentifierType()).thenReturn(identifierSources);
 
-        String resultIdentifierResources = controller.getAllIdentifierSources();
+        String resultIdentifierResources = controller.getAllIdentifierSourcesOfPrimaryIdentifierType();
 
         assertTrue(resultIdentifierResources.contains("\"uuid\":\"uuid\""));
         assertTrue(resultIdentifierResources.contains("\"name\":\"name\""));

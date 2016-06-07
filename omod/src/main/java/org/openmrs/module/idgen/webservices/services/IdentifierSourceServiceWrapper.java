@@ -19,4 +19,13 @@ import java.util.List;
     String generateIdentifier(String sourceName, String comment) throws Exception;
 
     List<IdentifierSource> getAllIdentifierSources();
+
+    List<IdentifierSource> getAllIdentifierSourcesOfPrimaryIdentifierType();
+
+    String generateIdentifierUsingIdentifierSourceUuid(String identifierSourceUuid, String comment) throws Exception;
+
+    String getSequenceValueUsingIdentifierSourceUuid(String uuid) throws Exception;
+
+    Long saveSequenceValueUsingIdentifierSourceUuid(long identifier, String uuid) throws Exception;
+
 }

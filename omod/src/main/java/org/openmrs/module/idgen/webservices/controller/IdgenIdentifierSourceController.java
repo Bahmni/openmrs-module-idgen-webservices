@@ -26,8 +26,8 @@ public class IdgenIdentifierSourceController extends BaseRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/identifiersources")
     @ResponseBody
-    public String getAllIdentifierSources() throws IOException {
-        List<org.openmrs.module.idgen.contract.IdentifierSource> result = identifierSourceServiceWrapper.getAllIdentifierSources();
+    public String getAllIdentifierSourcesOfPrimaryIdentifierType() throws IOException {
+        List<org.openmrs.module.idgen.contract.IdentifierSource> result = identifierSourceServiceWrapper.getAllIdentifierSourcesOfPrimaryIdentifierType();
         ObjectMapperRepository objectMapperRepository = new ObjectMapperRepository();
         return objectMapperRepository.writeValueAsString(result);
     }
