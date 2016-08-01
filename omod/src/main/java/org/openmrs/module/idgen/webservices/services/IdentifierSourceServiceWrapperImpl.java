@@ -5,11 +5,10 @@ import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.idgen.IdentifierSource;
 import org.openmrs.module.idgen.SequentialIdentifierGenerator;
-import org.openmrs.module.idgen.serialization.ObjectMapperRepository;
+import org.openmrs.module.idgen.mapper.IdentifierSourceListMapper;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +58,7 @@ public class IdentifierSourceServiceWrapperImpl extends BaseOpenmrsService imple
     public List<org.openmrs.module.idgen.contract.IdentifierSource> getAllIdentifierSources() {
         IdentifierSourceService identifierSourceService = Context.getService(IdentifierSourceService.class);
         List<IdentifierSource> allIdentifierSources = identifierSourceService.getAllIdentifierSources(false);
-        return convert(allIdentifierSources);
+        return IdentifierSourceListMapper.map(allIdentifierSources);
     }
 
     @Override
@@ -71,20 +70,10 @@ public class IdentifierSourceServiceWrapperImpl extends BaseOpenmrsService imple
         Map<PatientIdentifierType, List<IdentifierSource>> identifierSourcesByType = identifierSourceService.getIdentifierSourcesByType(false);
         List<IdentifierSource> primaryIdentifierSourcesList = identifierSourcesByType.get(primaryIdentifierType);
 
-        return convert(primaryIdentifierSourcesList);
+        return IdentifierSourceListMapper.map(primaryIdentifierSourcesList);
     }
 
-    private List<org.openmrs.module.idgen.contract.IdentifierSource> convert(List<IdentifierSource> identifierSourcesList) {
-        List<org.openmrs.module.idgen.contract.IdentifierSource> result = new ArrayList<org.openmrs.module.idgen.contract.IdentifierSource>();
-        for (IdentifierSource identifierSource : identifierSourcesList) {
-            String prefix = null;
-            if (identifierSource instanceof SequentialIdentifierGenerator) {
-                prefix = ((SequentialIdentifierGenerator) (identifierSource)).getPrefix();
-            }
-            result.add(new org.openmrs.module.idgen.contract.IdentifierSource(identifierSource.getUuid(), identifierSource.getName(), prefix));
-        }
-        return result;
-    }
+
 
     private IdentifierSource getIdentifierSource(String sourceName) throws Exception {
         IdentifierSourceService identifierSourceService = Context.getService(IdentifierSourceService.class);

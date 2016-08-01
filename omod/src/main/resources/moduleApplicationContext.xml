@@ -21,4 +21,21 @@
         </property>
     </bean>
 
+    <bean id="identifierTypeServiceWrapperTarget"
+          class="org.openmrs.module.idgen.webservices.services.IdentifierTypeServiceWrapperImpl">
+    </bean>
+
+    <bean id="identifierTypeServiceWrapper" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager">
+            <ref bean="transactionManager"/>
+        </property>
+        <property name="target" ref="identifierTypeServiceWrapperTarget"/>
+        <property name="preInterceptors">
+            <ref bean="serviceInterceptors"/>
+        </property>
+        <property name="transactionAttributeSource">
+            <ref bean="transactionAttributeSource"/>
+        </property>
+    </bean>
+
 </beans>

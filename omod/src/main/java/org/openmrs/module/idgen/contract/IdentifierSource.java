@@ -6,6 +6,9 @@ public class IdentifierSource {
     private String name;
     private String prefix;
 
+    public IdentifierSource(){
+    }
+
     public IdentifierSource(String uuid, String name, String prefix) {
 
         this.uuid = uuid;
