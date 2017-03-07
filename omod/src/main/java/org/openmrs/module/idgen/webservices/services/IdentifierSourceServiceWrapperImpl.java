@@ -64,7 +64,7 @@ public class IdentifierSourceServiceWrapperImpl extends BaseOpenmrsService imple
     @Override
     public List<org.openmrs.module.idgen.contract.IdentifierSource> getAllIdentifierSourcesOfPrimaryIdentifierType() {
         IdentifierSourceService identifierSourceService = Context.getService(IdentifierSourceService.class);
-        String primaryIdentifierTypeUuid = Context.getAdministrationService().getGlobalProperty("emr.primaryIdentifierType");
+        String primaryIdentifierTypeUuid = Context.getAdministrationService().getGlobalProperty("bahmni.primaryIdentifierType");
         PatientIdentifierType primaryIdentifierType = Context.getPatientService().getPatientIdentifierTypeByUuid(primaryIdentifierTypeUuid);
 
         Map<PatientIdentifierType, List<IdentifierSource>> identifierSourcesByType = identifierSourceService.getIdentifierSourcesByType(false);
