@@ -57,8 +57,8 @@ public class IdentifierTypeServiceWrapperImplTest {
         when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
 
         when(Context.getAdministrationService()).thenReturn(administrationService);
-        when(administrationService.getGlobalProperty("bahmni.primaryIdentifierType")).thenReturn("primary-identifier-type-uuid");
-        when(administrationService.getGlobalProperty("bahmni.extraPatientIdentifierTypes")).thenReturn("extra-identifier-type-uuid1,extra-identifier-type-uuid2");
+        when(administrationService.getGlobalProperty("emr.primaryIdentifierType")).thenReturn("primary-identifier-type-uuid");
+        when(administrationService.getGlobalProperty("emr.extraPatientIdentifierTypes")).thenReturn("extra-identifier-type-uuid1,extra-identifier-type-uuid2");
         PatientIdentifierType primaryPatientIdentifierType = new PatientIdentifierType(1);
         primaryPatientIdentifierType.setName("abcd");
         primaryPatientIdentifierType.setUuid("primary-identifier-type-uuid");

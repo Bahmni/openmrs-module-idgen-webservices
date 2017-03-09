@@ -21,8 +21,8 @@ public class IdentifierTypeServiceWrapperImpl  extends BaseOpenmrsService implem
         IdentifierSourceService identifierSourceService = Context.getService(IdentifierSourceService.class);
         AdministrationService administrationService = Context.getAdministrationService();
         Map<PatientIdentifierType, List<IdentifierSource>> identifierSourcesByType = identifierSourceService.getIdentifierSourcesByType(false);
-        String primaryIdentifierTypeUuid = administrationService.getGlobalProperty("bahmni.primaryIdentifierType");
-        String extraIdentifierTypeUuid = administrationService.getGlobalProperty("bahmni.extraPatientIdentifierTypes");
+        String primaryIdentifierTypeUuid = administrationService.getGlobalProperty("emr.primaryIdentifierType");
+        String extraIdentifierTypeUuid = administrationService.getGlobalProperty("emr.extraPatientIdentifierTypes");
         final String[] extraIdentifierTypeUuids = extraIdentifierTypeUuid != null ? extraIdentifierTypeUuid.split(",") : new String[]{};
         return mapToContractObject(identifierSourcesByType, primaryIdentifierTypeUuid, Arrays.asList(extraIdentifierTypeUuids));
     }

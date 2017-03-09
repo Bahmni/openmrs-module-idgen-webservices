@@ -162,7 +162,7 @@ public class IdentifierSourceServiceWrapperImplTest {
         when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
 
         when(Context.getAdministrationService()).thenReturn(administrationService);
-        when(administrationService.getGlobalProperty("bahmni.primaryIdentifierType")).thenReturn("dead-cafe");
+        when(administrationService.getGlobalProperty("emr.primaryIdentifierType")).thenReturn("dead-cafe");
         when(Context.getPatientService()).thenReturn(patientService);
         PatientIdentifierType patientIdentifierType = new PatientIdentifierType(1);
         patientIdentifierType.setName("abcd");
