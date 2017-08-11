@@ -1,6 +1,8 @@
 package org.openmrs.module.idgen.webservices.controller;
 
-import org.openmrs.api.APIAuthenticationException;
+import java.io.IOException;
+import java.util.List;
+
 import org.openmrs.api.context.Context;
 import org.openmrs.module.idgen.contract.IdentifierType;
 import org.openmrs.module.idgen.serialization.ObjectMapperRepository;
@@ -10,12 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.io.IOException;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/rest/" + RestConstants.VERSION_1 + "/idgen/identifiertype")
@@ -33,6 +34,8 @@ public class IdgenIdentifierTypeController {
 
         final List<IdentifierType> allIdentifierType = identifierTypeServiceWrapper.getPrimaryAndExtraIdentifierTypes();
         ObjectMapperRepository objectMapperRepository = new ObjectMapperRepository();
-        return new ResponseEntity<String>(objectMapperRepository.writeValueAsString(allIdentifierType), HttpStatus.OK);
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+        headers.set("Content-Type", "application/json;charset=UTF-8");
+        return new ResponseEntity<String>(objectMapperRepository.writeValueAsString(allIdentifierType), headers, HttpStatus.OK);
     }
 }
