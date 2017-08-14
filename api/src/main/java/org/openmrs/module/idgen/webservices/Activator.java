@@ -10,12 +10,11 @@ public class Activator extends BaseModuleActivator {
 
     @Override
     public void started() {
-        log.info("Started the idgen-webservices module");
+        log.info("Started the " + IdgenWsConstants.MODULE_ARTIFACT_ID + " module");
     }
 
     @Override
     public void stopped() {
-        log.info("Stopped the idgen-webservices module");
+        log.info("Stopped the " + IdgenWsConstants.MODULE_ARTIFACT_ID + " module");
     }
-    
 }

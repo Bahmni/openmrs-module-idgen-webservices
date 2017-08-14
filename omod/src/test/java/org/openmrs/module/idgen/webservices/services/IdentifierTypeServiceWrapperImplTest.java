@@ -1,5 +1,17 @@
 package org.openmrs.module.idgen.webservices.services;
 
+import static org.hamcrest.Matchers.hasItem;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,20 +24,9 @@ import org.openmrs.module.idgen.SequentialIdentifierGenerator;
 import org.openmrs.module.idgen.contract.IdentifierSource;
 import org.openmrs.module.idgen.contract.IdentifierType;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
+import org.openmrs.module.idgen.webservices.IdgenWsConstants;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.hamcrest.Matchers.hasItem;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Context.class)
@@ -57,8 +58,8 @@ public class IdentifierTypeServiceWrapperImplTest {
         when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
 
         when(Context.getAdministrationService()).thenReturn(administrationService);
-        when(administrationService.getGlobalProperty("bahmni.primaryIdentifierType")).thenReturn("primary-identifier-type-uuid");
-        when(administrationService.getGlobalProperty("bahmni.extraPatientIdentifierTypes")).thenReturn("extra-identifier-type-uuid1,extra-identifier-type-uuid2");
+        when(administrationService.getGlobalProperty(IdgenWsConstants.GP_PRIMARY_IDTYPE)).thenReturn("primary-identifier-type-uuid");
+        when(administrationService.getGlobalProperty(IdgenWsConstants.GP_EXTRA_IDTYPES)).thenReturn("extra-identifier-type-uuid1,extra-identifier-type-uuid2");
         PatientIdentifierType primaryPatientIdentifierType = new PatientIdentifierType(1);
         primaryPatientIdentifierType.setName("abcd");
         primaryPatientIdentifierType.setUuid("primary-identifier-type-uuid");
