@@ -1,12 +1,10 @@
 package org.openmrs.module.idgen.serialization;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.openmrs.module.idgen.contract.IdentifierSource;
-import org.openmrs.module.idgen.contract.IdentifierType;
-
 import java.io.IOException;
 import java.util.List;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
 
 public class ObjectMapperRepository<E> {
     public static ObjectMapper objectMapper = new ObjectMapper();

@@ -1,5 +1,11 @@
 package org.openmrs.module.idgen.webservices.services;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
@@ -8,12 +14,7 @@ import org.openmrs.module.idgen.IdentifierSource;
 import org.openmrs.module.idgen.contract.IdentifierType;
 import org.openmrs.module.idgen.mapper.IdentifierSourceListMapper;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import org.openmrs.module.idgen.webservices.IdgenWsConstants;
 
 public class IdentifierTypeServiceWrapperImpl  extends BaseOpenmrsService implements IdentifierTypeServiceWrapper {
 
@@ -21,8 +22,8 @@ public class IdentifierTypeServiceWrapperImpl  extends BaseOpenmrsService implem
         IdentifierSourceService identifierSourceService = Context.getService(IdentifierSourceService.class);
         AdministrationService administrationService = Context.getAdministrationService();
         Map<PatientIdentifierType, List<IdentifierSource>> identifierSourcesByType = identifierSourceService.getIdentifierSourcesByType(false);
-        String primaryIdentifierTypeUuid = administrationService.getGlobalProperty("bahmni.primaryIdentifierType");
-        String extraIdentifierTypeUuid = administrationService.getGlobalProperty("bahmni.extraPatientIdentifierTypes");
+        String primaryIdentifierTypeUuid = administrationService.getGlobalProperty(IdgenWsConstants.GP_PRIMARY_IDTYPE);
+        String extraIdentifierTypeUuid = administrationService.getGlobalProperty(IdgenWsConstants.GP_EXTRA_IDTYPES);
         final String[] extraIdentifierTypeUuids = extraIdentifierTypeUuid != null ? extraIdentifierTypeUuid.split(",") : new String[]{};
         return mapToContractObject(identifierSourcesByType, primaryIdentifierTypeUuid, Arrays.asList(extraIdentifierTypeUuids));
     }
