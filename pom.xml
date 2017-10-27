@@ -5,7 +5,7 @@
     <groupId>org.openmrs.module</groupId>
     <artifactId>idgen-webservices</artifactId>
     <packaging>pom</packaging>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.3-SNAPSHOT</version>
     <name>ID Generation Web Services</name>
     <modules>
         <module>api</module>
