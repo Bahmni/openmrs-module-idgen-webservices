@@ -13,7 +13,7 @@
     </modules>
 
     <properties>
-        <openmrsCoreVersion>1.9.4</openmrsCoreVersion>
+        <openmrsCoreVersion>2.0.0</openmrsCoreVersion>
         <webservicesRestModuleVersion>2.6</webservicesRestModuleVersion>
         <idGenVersion>4.4-SNAPSHOT</idGenVersion>
     </properties>
