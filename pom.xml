@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.openmrs.module</groupId>
     <artifactId>idgen-webservices</artifactId>
     <packaging>pom</packaging>
     <version>1.3-SNAPSHOT</version>
     <name>ID Generation Web Services</name>
+    
     <modules>
         <module>api</module>
         <module>omod</module>
     </modules>
-
+    
     <properties>
         <openmrsCoreVersion>2.0.0</openmrsCoreVersion>
         <webservicesRestModuleVersion>2.6</webservicesRestModuleVersion>
         <idGenVersion>4.4.1</idGenVersion>
     </properties>
-
+    
     <scm>
         <connection>scm:git:git@github.com:bhamni/openmrs-module-idgen-webservices.git</connection>
         <developerConnection>scm:git:git@github.com:bhamni/openmrs-module-idgen-webservices.git</developerConnection>
         <url>https://github.com/bhamni/openmrs-module-idgen-webservices.git</url>
         <tag>HEAD</tag>
     </scm>
-
-
+    
     <dependencies>
         <dependency>
             <groupId>org.openmrs.api</groupId>
@@ -47,7 +46,7 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
+    
     <repositories>
         <repository>
             <id>openmrs-repo</id>
@@ -57,6 +56,33 @@
     </repositories>
     
     <build>
+
+        <plugins>
+            <plugin>
+                <groupId>net.revelc.code.formatter</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <version>2.7.1</version>
+                <configuration>
+                    <directories>
+                        <directory>.</directory>
+                    </directories>
+                    <configFile>../OpenMRSFormatter.xml</configFile>
+                    <includes>
+                        <include>**/*.java</include>
+                    </includes>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -72,15 +98,17 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        <extensions>
-           <extension>
-               <groupId>org.kuali.maven.wagons</groupId>
-               <artifactId>maven-s3-wagon</artifactId>
-               <version>1.2.1</version>
-           </extension>
-       </extensions>
-    </build>
 
+        <extensions>
+            <extension>
+                <groupId>org.kuali.maven.wagons</groupId>
+                <artifactId>maven-s3-wagon</artifactId>
+                <version>1.2.1</version>
+            </extension>
+        </extensions>
+        
+    </build>
+    
     <pluginRepositories>
         <pluginRepository>
             <id>openmrs-repo</id>
@@ -96,10 +124,10 @@
             <url>s3://repo.mybahmni.org/artifactory/release</url>
         </repository>
         <snapshotRepository>
-           <id>repo.mybahmni.org</id>
-           <name>bahmni-artifactory-snapshots</name>
-           <url>s3://repo.mybahmni.org/artifactory/snapshot</url>
-       </snapshotRepository>
+            <id>repo.mybahmni.org</id>
+            <name>bahmni-artifactory-snapshots</name>
+            <url>s3://repo.mybahmni.org/artifactory/snapshot</url>
+        </snapshotRepository>
     </distributionManagement>
 
 </project>
