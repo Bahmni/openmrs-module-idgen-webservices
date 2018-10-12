@@ -25,57 +25,59 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
-
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Context.class)
 public class IdgenIdentifierTypeControllerTest {
-    @InjectMocks
-    private IdgenIdentifierTypeController controller;
-
-    @Mock
-    private IdentifierTypeServiceWrapper serviceWrapper;
-
-    @Before
-    public void before() throws Exception {
-        initMocks(this);
-        mockStatic(Context.class);
-    }
-
-    @Test
-    public void shouldRespondWith401WhenNotAuthenticated() throws IOException {
-        when(Context.isAuthenticated()).thenReturn(false);
-        ResponseEntity<String> response = controller.getPrimaryAndExtraIdentifierTypes();
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-    }
-
-    @Test
-    public void shouldRespondWith401WhenGetIdentifierTypePrivilegeIsNotGivenToUser() throws IOException {
-        when(Context.isAuthenticated()).thenReturn(true);
-        when(Context.hasPrivilege("Get Identifier Types")).thenReturn(false);
-        ResponseEntity<String> response = controller.getPrimaryAndExtraIdentifierTypes();
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-    }
-
-    @Test
-    public void ShouldReturnAllIdentifierType() throws Exception {
-        when(Context.isAuthenticated()).thenReturn(true);
-        when(Context.hasPrivilege("Get Identifier Types")).thenReturn(true);
-
-        final IdentifierSource identifierSource = new IdentifierSource("source-uuid", "some name", "SOM");
-        final IdentifierType bahmniIdentifierType = new IdentifierType("uuid", "bahmni", "description", ".*", true, true, Arrays.asList(identifierSource));
-
-        when(serviceWrapper.getPrimaryAndExtraIdentifierTypes()).thenReturn(Arrays.asList(bahmniIdentifierType));
-
-        ResponseEntity<String> allIdentifierType = controller.getPrimaryAndExtraIdentifierTypes();
-
-        List<IdentifierType> identifierTypes = new ObjectMapper().readValue(allIdentifierType.getBody(), new TypeReference<List<IdentifierType>>() {});
-        assertEquals(1, identifierTypes.size());
-        assertEquals(bahmniIdentifierType.getUuid(), identifierTypes.get(0).getUuid());
-        assertEquals(bahmniIdentifierType.getFormat(), identifierTypes.get(0).getFormat());
-        assertEquals(bahmniIdentifierType.getName(), identifierTypes.get(0).getName());
-        assertEquals(bahmniIdentifierType.getIdentifierSources().size(), identifierTypes.get(0).getIdentifierSources().size());
-
-    }
-
-
+	
+	@InjectMocks
+	private IdgenIdentifierTypeController controller;
+	
+	@Mock
+	private IdentifierTypeServiceWrapper serviceWrapper;
+	
+	@Before
+	public void before() throws Exception {
+		initMocks(this);
+		mockStatic(Context.class);
+	}
+	
+	@Test
+	public void shouldRespondWith401WhenNotAuthenticated() throws IOException {
+		when(Context.isAuthenticated()).thenReturn(false);
+		ResponseEntity<String> response = controller.getPrimaryAndExtraIdentifierTypes();
+		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+	}
+	
+	@Test
+	public void shouldRespondWith401WhenGetIdentifierTypePrivilegeIsNotGivenToUser() throws IOException {
+		when(Context.isAuthenticated()).thenReturn(true);
+		when(Context.hasPrivilege("Get Identifier Types")).thenReturn(false);
+		ResponseEntity<String> response = controller.getPrimaryAndExtraIdentifierTypes();
+		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+	}
+	
+	@Test
+	public void ShouldReturnAllIdentifierType() throws Exception {
+		when(Context.isAuthenticated()).thenReturn(true);
+		when(Context.hasPrivilege("Get Identifier Types")).thenReturn(true);
+		
+		final IdentifierSource identifierSource = new IdentifierSource("source-uuid", "some name", "SOM");
+		final IdentifierType bahmniIdentifierType = new IdentifierType("uuid", "bahmni", "description", ".*", true, true,
+		        Arrays.asList(identifierSource));
+		
+		when(serviceWrapper.getPrimaryAndExtraIdentifierTypes()).thenReturn(Arrays.asList(bahmniIdentifierType));
+		
+		ResponseEntity<String> allIdentifierType = controller.getPrimaryAndExtraIdentifierTypes();
+		
+		List<IdentifierType> identifierTypes = new ObjectMapper().readValue(allIdentifierType.getBody(),
+		    new TypeReference<List<IdentifierType>>() {});
+		assertEquals(1, identifierTypes.size());
+		assertEquals(bahmniIdentifierType.getUuid(), identifierTypes.get(0).getUuid());
+		assertEquals(bahmniIdentifierType.getFormat(), identifierTypes.get(0).getFormat());
+		assertEquals(bahmniIdentifierType.getName(), identifierTypes.get(0).getName());
+		assertEquals(bahmniIdentifierType.getIdentifierSources().size(),
+		    identifierTypes.get(0).getIdentifierSources().size());
+		
+	}
+	
 }

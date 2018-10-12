@@ -1,6 +1,6 @@
 package org.openmrs.module.idgen.webservices;
 
-public class IdgenWsConstants  {
+public class IdgenWsConstants {
 	
 	/*
 	 * Module ids
@@ -22,6 +22,6 @@ public class IdgenWsConstants  {
 	 * GPs
 	 */
 	public static final String GP_PRIMARY_IDTYPE = "bahmni.primaryIdentifierType";
-
+	
 	public static final String GP_EXTRA_IDTYPES = "bahmni.extraPatientIdentifierTypes";
 }
