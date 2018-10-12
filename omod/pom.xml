@@ -3,12 +3,12 @@
     <parent>
         <artifactId>idgen-webservices</artifactId>
         <groupId>org.openmrs.module</groupId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>idgen-webservices-omod</artifactId>
     <packaging>jar</packaging>
-    <name>idgen webservices OMOD</name>
+    <name>ID Generation Web Services OMOD</name>
     <description>OMOD project for idgen-webservices</description>
     <modelVersion>4.0.0</modelVersion>
 
