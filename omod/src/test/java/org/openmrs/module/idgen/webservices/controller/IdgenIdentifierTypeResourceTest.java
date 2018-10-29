@@ -22,7 +22,7 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 import org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping;
 
 public class IdgenIdentifierTypeResourceTest extends BaseModuleWebContextSensitiveTest {
-
+	
 	@Autowired
 	private AnnotationMethodHandlerAdapter handlerAdapter;
 	
@@ -32,7 +32,8 @@ public class IdgenIdentifierTypeResourceTest extends BaseModuleWebContextSensiti
 	
 	@Before
 	public void setup() {
-		// setting a primary and an extra identifiers with non-unicode chars in their names
+		// setting a primary and an extra identifiers with non-unicode chars in their
+		// names
 		AdministrationService as = Context.getAdministrationService();
 		PatientService ps = Context.getPatientService();
 		{
@@ -52,21 +53,22 @@ public class IdgenIdentifierTypeResourceTest extends BaseModuleWebContextSensiti
 	@Test
 	public void getPrimaryAndExtraIdentifierTypes_shouldEncodePITNamesAndDescriptionsInUTF8() throws Exception {
 		// Setup
-		MockHttpServletRequest request = new MockHttpServletRequest("GET", "/rest/" + RestConstants.VERSION_1 + "/" + IdgenWsConstants.PATH_IDGEN_IDTYPE);
-        Object handler = handlerMapping.getHandler(request).getHandler();
-        MockHttpServletResponse response = new MockHttpServletResponse();
-        
-        // Replay
-        handlerAdapter.handle(request, response, handler);
-
-        // Verif
-        Assert.assertEquals(IdgenIdentifierTypeController.contentType, response.getContentType());
-        Assert.assertEquals(IdgenIdentifierTypeController.encoding, response.getCharacterEncoding());
-        String json = response.getContentAsString();
-        
-        HashMap<String, String>[] identifierTypes = new ObjectMapper().readValue(json, HashMap[].class);
-        Assert.assertEquals(2, identifierTypes.length);
-        Assert.assertEquals("លេខសម្គាល់ OpenMRS", identifierTypes[0].get("name"));
-        Assert.assertEquals("លេខសម្គាល់ old", identifierTypes[1].get("name"));
+		MockHttpServletRequest request = new MockHttpServletRequest("GET",
+		        "/rest/" + RestConstants.VERSION_1 + "/" + IdgenWsConstants.PATH_IDGEN_IDTYPE);
+		Object handler = handlerMapping.getHandler(request).getHandler();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+		
+		// Replay
+		handlerAdapter.handle(request, response, handler);
+		
+		// Verif
+		Assert.assertEquals(IdgenIdentifierTypeController.contentType, response.getContentType());
+		Assert.assertEquals(IdgenIdentifierTypeController.encoding, response.getCharacterEncoding());
+		String json = response.getContentAsString();
+		
+		HashMap<String, String>[] identifierTypes = new ObjectMapper().readValue(json, HashMap[].class);
+		Assert.assertEquals(2, identifierTypes.length);
+		Assert.assertEquals("លេខសម្គាល់ OpenMRS", identifierTypes[0].get("name"));
+		Assert.assertEquals("លេខសម្គាល់ old", identifierTypes[1].get("name"));
 	}
 }

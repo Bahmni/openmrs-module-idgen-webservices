@@ -25,22 +25,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class IdgenIdentifierTypeController {
 	
 	public final static String encoding = StandardCharsets.UTF_8.toString();
+	
 	public final static String contentType = "application/json;charset=" + encoding;
-
-    @Autowired
-    IdentifierTypeServiceWrapper identifierTypeServiceWrapper;
-
-    @RequestMapping(method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<String> getPrimaryAndExtraIdentifierTypes() throws IOException {
-        if(!Context.isAuthenticated() || !Context.hasPrivilege("Get Identifier Types")){
-            return new ResponseEntity<String>("", HttpStatus.UNAUTHORIZED);
-        }
-
-        final List<IdentifierType> allIdentifierType = identifierTypeServiceWrapper.getPrimaryAndExtraIdentifierTypes();
-        ObjectMapperRepository objectMapperRepository = new ObjectMapperRepository();
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-        headers.set("Content-Type", contentType);
-        return new ResponseEntity<String>(objectMapperRepository.writeValueAsString(allIdentifierType), headers, HttpStatus.OK);
-    }
+	
+	@Autowired
+	IdentifierTypeServiceWrapper identifierTypeServiceWrapper;
+	
+	@RequestMapping(method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<String> getPrimaryAndExtraIdentifierTypes() throws IOException {
+		if (!Context.isAuthenticated() || !Context.hasPrivilege("Get Identifier Types")) {
+			return new ResponseEntity<String>("", HttpStatus.UNAUTHORIZED);
+		}
+		
+		final List<IdentifierType> allIdentifierType = identifierTypeServiceWrapper.getPrimaryAndExtraIdentifierTypes();
+		ObjectMapperRepository objectMapperRepository = new ObjectMapperRepository();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		headers.set("Content-Type", contentType);
+		return new ResponseEntity<String>(objectMapperRepository.writeValueAsString(allIdentifierType), headers,
+		        HttpStatus.OK);
+	}
 }

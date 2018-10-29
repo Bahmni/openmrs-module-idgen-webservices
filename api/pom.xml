@@ -4,13 +4,13 @@
     <parent>
         <groupId>org.openmrs.module</groupId>
         <artifactId>idgen-webservices</artifactId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>idgen-webservices-api</artifactId>
     <packaging>jar</packaging>
-    <name>idgen webservices api</name>
-    <description>api project for idgen-webservices</description>
+    <name>ID Generation Web Services API</name>
+    <description>API project for idgen-webservices</description>
     <modelVersion>4.0.0</modelVersion>
-
+    
 </project>

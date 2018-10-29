@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface IdentifierTypeServiceWrapper extends OpenmrsService{
-
-    @Transactional(readOnly = true)
-    List<IdentifierType> getPrimaryAndExtraIdentifierTypes();
+public interface IdentifierTypeServiceWrapper extends OpenmrsService {
+	
+	@Transactional(readOnly = true)
+	List<IdentifierType> getPrimaryAndExtraIdentifierTypes();
 }

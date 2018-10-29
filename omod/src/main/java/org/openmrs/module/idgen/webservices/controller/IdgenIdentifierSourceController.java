@@ -14,35 +14,35 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/rest/" + RestConstants.VERSION_1 + "/idgen")
 public class IdgenIdentifierSourceController extends BaseRestController {
-
-    @Autowired
-    private IdentifierSourceServiceWrapper identifierSourceServiceWrapper;
-
-    @RequestMapping(method = RequestMethod.POST)
-    @ResponseBody
-    public String generateIdentifier(@RequestBody GenerateIdentifierRequest request) throws Exception {
-        return identifierSourceServiceWrapper.generateIdentifier(request.getIdentifierSourceName(), request.getComment());
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/identifiersources")
-    @ResponseBody
-    public String getAllIdentifierSourcesOfPrimaryIdentifierType() throws IOException {
-        List<org.openmrs.module.idgen.contract.IdentifierSource> result = identifierSourceServiceWrapper.getAllIdentifierSourcesOfPrimaryIdentifierType();
-        ObjectMapperRepository objectMapperRepository = new ObjectMapperRepository();
-        return objectMapperRepository.writeValueAsString(result);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/latestidentifier")
-    @ResponseBody
-    public String getSequenceValue(@RequestParam(value = "sourceName") String sourceName) throws Exception {
-        return identifierSourceServiceWrapper.getSequenceValue(sourceName);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/latestidentifier")
-    @ResponseBody
-    public Long saveSequenceValue(@RequestBody SetLatestIdentifierRequest request) throws Exception {
-        identifierSourceServiceWrapper.saveSequenceValue(request.getIdentifier(), request.getSourceName());
-        return request.getIdentifier();
-    }
+	
+	@Autowired
+	private IdentifierSourceServiceWrapper identifierSourceServiceWrapper;
+	
+	@RequestMapping(method = RequestMethod.POST)
+	@ResponseBody
+	public String generateIdentifier(@RequestBody GenerateIdentifierRequest request) throws Exception {
+		return identifierSourceServiceWrapper.generateIdentifier(request.getIdentifierSourceName(), request.getComment());
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/identifiersources")
+	@ResponseBody
+	public String getAllIdentifierSourcesOfPrimaryIdentifierType() throws IOException {
+		List<org.openmrs.module.idgen.contract.IdentifierSource> result = identifierSourceServiceWrapper
+		        .getAllIdentifierSourcesOfPrimaryIdentifierType();
+		ObjectMapperRepository objectMapperRepository = new ObjectMapperRepository();
+		return objectMapperRepository.writeValueAsString(result);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/latestidentifier")
+	@ResponseBody
+	public String getSequenceValue(@RequestParam(value = "sourceName") String sourceName) throws Exception {
+		return identifierSourceServiceWrapper.getSequenceValue(sourceName);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/latestidentifier")
+	@ResponseBody
+	public Long saveSequenceValue(@RequestBody SetLatestIdentifierRequest request) throws Exception {
+		identifierSourceServiceWrapper.saveSequenceValue(request.getIdentifier(), request.getSourceName());
+		return request.getIdentifier();
+	}
 }
-
