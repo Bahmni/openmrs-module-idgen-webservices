@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class IdgenIdentifierTypeController {
 	
 	public final static String encoding = Charset.forName("UTF-8").toString();
-
 	public final static String contentType = "application/json;charset=" + encoding;
 	
 	@Autowired
