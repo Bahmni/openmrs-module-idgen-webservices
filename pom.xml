@@ -13,9 +13,10 @@
     </modules>
     
     <properties>
-        <openmrsCoreVersion>2.0.0</openmrsCoreVersion>
-        <webservicesRestModuleVersion>2.6</webservicesRestModuleVersion>
-        <idGenVersion>4.4.1</idGenVersion>
+        <openmrsCoreVersion>2.4.2</openmrsCoreVersion>
+        <webservicesRestModuleVersion>2.29.0</webservicesRestModuleVersion>
+        <idGenVersion>4.7.0</idGenVersion>
+        <javaxServletApiVersion>4.0.1</javaxServletApiVersion>
     </properties>
     
     <scm>
@@ -36,13 +37,19 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
-            <version>[1.2,1.5]</version>
+            <version>1.9.14-MULE-002</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javaxServletApiVersion}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-core-asl</artifactId>
-            <version>[1.2,1.5]</version>
+            <version>1.9.14-MULE-002</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -51,7 +58,7 @@
         <repository>
             <id>openmrs-repo</id>
             <name>OpenMRS Nexus Repository</name>
-            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
+            <url>https://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
         </repository>
     </repositories>
     
@@ -113,7 +120,7 @@
         <pluginRepository>
             <id>openmrs-repo</id>
             <name>OpenMRS Nexus Repository</name>
-            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
+            <url>https://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
         </pluginRepository>
     </pluginRepositories>
 

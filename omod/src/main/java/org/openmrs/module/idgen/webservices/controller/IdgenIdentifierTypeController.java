@@ -1,7 +1,7 @@
 package org.openmrs.module.idgen.webservices.controller;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import org.openmrs.api.context.Context;
@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/rest/" + RestConstants.VERSION_1 + "/" + IdgenWsConstants.PATH_IDGEN_IDTYPE)
 public class IdgenIdentifierTypeController {
 	
-	public final static String encoding = StandardCharsets.UTF_8.toString();
-	
+	public final static String encoding = Charset.forName("UTF-8").toString();
+
 	public final static String contentType = "application/json;charset=" + encoding;
 	
 	@Autowired
