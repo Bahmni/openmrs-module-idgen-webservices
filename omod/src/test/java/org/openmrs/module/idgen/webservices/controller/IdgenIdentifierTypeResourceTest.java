@@ -18,17 +18,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
-import org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 public class IdgenIdentifierTypeResourceTest extends BaseModuleWebContextSensitiveTest {
 	
 	@Autowired
-	private AnnotationMethodHandlerAdapter handlerAdapter;
+	private RequestMappingHandlerAdapter handlerAdapter;
 	
 	@Autowired
-	@Qualifier("org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping#0")
-	private DefaultAnnotationHandlerMapping handlerMapping;
+	@Qualifier("org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping#0")
+	private RequestMappingHandlerMapping handlerMapping;
 	
 	@Before
 	public void setup() {
