@@ -13,11 +13,11 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Set AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.S3_MVN_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.S3_MVN_SECRET_KEY }}
-          aws-region: ap-southeast-1
+          server-id: nexus-sonatype
+          server-username: NEXUS_USERNAME
+          server-password: NEXUS_PASSWORD
       - name: Build and deploy with Maven
-        run: ./mvnw --no-transfer-progress clean -U deploy -Pmybahmni-s3
+        run: ./mvnw --no-transfer-progress clean -U deploy
+        env:
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}

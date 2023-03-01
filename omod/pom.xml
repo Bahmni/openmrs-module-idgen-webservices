@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+    <modelVersion>4.0.0</modelVersion>
     <parent>
+        <groupId>org.bahmni.module</groupId>
         <artifactId>idgen-webservices</artifactId>
-        <groupId>org.openmrs.module</groupId>
-        <version>1.3-SNAPSHOT</version>
+        <version>1.4.0</version>
     </parent>
 
     <artifactId>idgen-webservices-omod</artifactId>
     <packaging>jar</packaging>
     <name>ID Generation Web Services OMOD</name>
     <description>OMOD project for idgen-webservices</description>
-    <modelVersion>4.0.0</modelVersion>
     
     <properties>
         <MODULE_ID>${project.parent.artifactId}</MODULE_ID>
         <MODULE_NAME>${project.parent.name}</MODULE_NAME>
         <MODULE_VERSION>${project.parent.version}</MODULE_VERSION>
-        <MODULE_PACKAGE>${project.parent.groupId}.idgen.webservices</MODULE_PACKAGE>
+        <MODULE_PACKAGE>org.openmrs.module.idgen.webservices</MODULE_PACKAGE>
     </properties>
     
     <dependencies>
         <dependency>
-            <groupId>org.openmrs.module</groupId>
+            <groupId>org.bahmni.module</groupId>
             <artifactId>idgen-webservices-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

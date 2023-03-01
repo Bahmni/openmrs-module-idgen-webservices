@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
-        <groupId>org.openmrs.module</groupId>
+        <groupId>org.bahmni.module</groupId>
         <artifactId>idgen-webservices</artifactId>
-        <version>1.3-SNAPSHOT</version>
+        <version>1.4.0</version>
     </parent>
 
     <artifactId>idgen-webservices-api</artifactId>
@@ -12,5 +12,21 @@
     <name>ID Generation Web Services API</name>
     <description>API project for idgen-webservices</description>
     <modelVersion>4.0.0</modelVersion>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+    </build>
     
 </project>

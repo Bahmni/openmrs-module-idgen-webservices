@@ -12,7 +12,7 @@
 		Web services for idgen module
 		See <a href="http://openmrs.org/wiki/Idgen_Module">http://openmrs.org/wiki/Idgen_Module</a> for more information
 	</description>
-	<activator>@MODULE_PACKAGE@.Activator</activator>	
+	<activator>org.openmrs.module.idgen.webservices.Activator</activator>
 	<require_version>1.6</require_version>
 
     <require_modules>
