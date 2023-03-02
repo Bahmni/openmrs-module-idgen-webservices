@@ -4,7 +4,7 @@
     <groupId>org.bahmni.module</groupId>
     <artifactId>idgen-webservices</artifactId>
     <packaging>pom</packaging>
-    <version>1.4.0</version>
+    <version>1.5.0-SNAPSHOT</version>
     <name>ID Generation Web Services</name>
     <url>https://github.com/Bahmni/openmrs-module-idgen-webservices</url>
     <description>Bahmni Patient Identifier</description>
