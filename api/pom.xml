@@ -11,6 +11,13 @@
     <packaging>jar</packaging>
     <name>ID Generation Web Services API</name>
     <description>API project for idgen-webservices</description>
+    
+    <licenses>
+        <license>
+            <name>Mozilla Public License Version 2.0</name>
+            <url>https://www.bahmni.org/license/mplv2hd</url>
+        </license>
+    </licenses>
     <modelVersion>4.0.0</modelVersion>
 
     <build>

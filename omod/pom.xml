@@ -12,6 +12,13 @@
     <name>ID Generation Web Services OMOD</name>
     <description>OMOD project for idgen-webservices</description>
     
+    
+    <licenses>
+        <license>
+            <name>Mozilla Public License Version 2.0</name>
+            <url>https://www.bahmni.org/license/mplv2hd</url>
+        </license>
+    </licenses>
     <properties>
         <MODULE_ID>${project.parent.artifactId}</MODULE_ID>
         <MODULE_NAME>${project.parent.name}</MODULE_NAME>
