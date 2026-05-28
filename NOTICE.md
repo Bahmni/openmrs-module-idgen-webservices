@@ -1,6 +1,6 @@
 # NOTICE
 
-## Openmrs Module Ipd
+## Openmrs Module Idgen Webservices
 
 Copyright © 2026 OpenMRS Inc.
 
