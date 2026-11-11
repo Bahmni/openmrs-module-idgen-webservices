@@ -4,16 +4,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.openmrs.module.idgen.webservices.services.IdentifierSourceServiceWrapper;
-import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
-@RunWith(PowerMockRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class IdgenIdentifierSourceControllerTest {
 	
 	@InjectMocks
@@ -24,12 +24,8 @@ public class IdgenIdentifierSourceControllerTest {
 	
 	@Test
 	public void shouldGetAllIdentifierSourcesOfPrimaryIdentifierType() throws Exception {
-		List<org.openmrs.module.idgen.contract.IdentifierSource> identifierSources = new ArrayList<org.openmrs.module.idgen.contract.IdentifierSource>() {
-			
-			{
-				this.add(new org.openmrs.module.idgen.contract.IdentifierSource("uuid", "name", "GAN"));
-			}
-		};
+		List<org.openmrs.module.idgen.contract.IdentifierSource> identifierSources = Arrays
+		        .asList(new org.openmrs.module.idgen.contract.IdentifierSource("uuid", "name", "GAN"));
 		when(identifierSourceServiceWrapper.getAllIdentifierSourcesOfPrimaryIdentifierType()).thenReturn(identifierSources);
 		
 		String resultIdentifierResources = controller.getAllIdentifierSourcesOfPrimaryIdentifierType();
