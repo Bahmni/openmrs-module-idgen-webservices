@@ -22,7 +22,7 @@
     </modules>
     
     <properties>
-        <openmrsCoreVersion>2.4.2</openmrsCoreVersion>
+        <openmrsCoreVersion>2.8.10</openmrsCoreVersion>
         <webservicesRestModuleVersion>2.29.0</webservicesRestModuleVersion>
         <idGenVersion>4.7.0</idGenVersion>
         <javaxServletApiVersion>4.0.1</javaxServletApiVersion>
