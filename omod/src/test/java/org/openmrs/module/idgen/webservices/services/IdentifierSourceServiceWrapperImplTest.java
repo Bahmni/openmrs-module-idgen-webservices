@@ -1,10 +1,10 @@
 package org.openmrs.module.idgen.webservices.services;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.openmrs.PatientIdentifier;
+import org.mockito.MockedStatic;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.PatientService;
@@ -12,23 +12,20 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.idgen.IdentifierSource;
 import org.openmrs.module.idgen.SequentialIdentifierGenerator;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(Context.class)
 public class IdentifierSourceServiceWrapperImplTest {
 	
 	@Mock
@@ -45,23 +42,26 @@ public class IdentifierSourceServiceWrapperImplTest {
 	
 	private IdentifierSourceServiceWrapperImpl identifierSourceServiceWrapperImpl;
 	
+	private MockedStatic<Context> contextMock;
+	
 	@Before
 	public void before() throws Exception {
 		initMocks(this);
-		mockStatic(Context.class);
+		contextMock = mockStatic(Context.class);
 		identifierSourceServiceWrapperImpl = new IdentifierSourceServiceWrapperImpl();
+	}
+	
+	@After
+	public void after() {
+		contextMock.close();
 	}
 	
 	@Test
 	public void shouldGenerateIdentifier() throws Exception {
-		when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
+		contextMock.when(() -> Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
 		when(identifierSource.getName()).thenReturn("OPD");
-		when(identifierSourceService.getAllIdentifierSources(false)).thenReturn(new ArrayList<IdentifierSource>() {
-			
-			{
-				this.add(identifierSource);
-			}
-		});
+		when(identifierSourceService.getAllIdentifierSources(false))
+		        .thenReturn(Arrays.<IdentifierSource> asList(identifierSource));
 		
 		identifierSourceServiceWrapperImpl.generateIdentifier("OPD", "New HIV Patient");
 		
@@ -70,7 +70,7 @@ public class IdentifierSourceServiceWrapperImplTest {
 	
 	@Test
 	public void shouldGenerateIdentifierUsingIdentifierSourceUuid() throws Exception {
-		when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
+		contextMock.when(() -> Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
 		when(identifierSourceService.getIdentifierSourceByUuid("dead-cafe")).thenReturn(identifierSource);
 		
 		identifierSourceServiceWrapperImpl.generateIdentifierUsingIdentifierSourceUuid("dead-cafe", "");
@@ -81,7 +81,7 @@ public class IdentifierSourceServiceWrapperImplTest {
 	
 	@Test
 	public void shouldGetSequenceValue() throws Exception {
-		when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
+		contextMock.when(() -> Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
 		
 		ArrayList<IdentifierSource> identifierSources = new ArrayList<IdentifierSource>();
 		SequentialIdentifierGenerator sequentialIdentifierGenerator = new SequentialIdentifierGenerator();
@@ -98,7 +98,7 @@ public class IdentifierSourceServiceWrapperImplTest {
 	
 	@Test
 	public void shouldGetSequenceValueUsingIdentifierSourceUuid() throws Exception {
-		when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
+		contextMock.when(() -> Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
 		
 		SequentialIdentifierGenerator sequentialIdentifierGenerator = new SequentialIdentifierGenerator();
 		sequentialIdentifierGenerator.setName("GAN");
@@ -114,7 +114,7 @@ public class IdentifierSourceServiceWrapperImplTest {
 	
 	@Test
 	public void shouldSaveSequenceValue() throws Exception {
-		when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
+		contextMock.when(() -> Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
 		
 		ArrayList<IdentifierSource> identifierSources = new ArrayList<IdentifierSource>();
 		SequentialIdentifierGenerator sequentialIdentifierGenerator = new SequentialIdentifierGenerator();
@@ -130,7 +130,7 @@ public class IdentifierSourceServiceWrapperImplTest {
 	
 	@Test
 	public void shouldSaveSequenceValueUsingIdentifierSourceUuid() throws Exception {
-		when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
+		contextMock.when(() -> Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
 		
 		SequentialIdentifierGenerator sequentialIdentifierGenerator = new SequentialIdentifierGenerator();
 		sequentialIdentifierGenerator.setName("GAN");
@@ -145,7 +145,7 @@ public class IdentifierSourceServiceWrapperImplTest {
 	
 	@Test
 	public void shouldGetAllIdentifierSources() {
-		when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
+		contextMock.when(() -> Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
 		
 		ArrayList<IdentifierSource> identifierSources = new ArrayList<IdentifierSource>();
 		SequentialIdentifierGenerator sequentialIdentifierGenerator = new SequentialIdentifierGenerator();
@@ -167,11 +167,11 @@ public class IdentifierSourceServiceWrapperImplTest {
 	
 	@Test
 	public void shouldGetAllIdentifierSourcesBasedOnPrimaryIdentifierType() {
-		when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
+		contextMock.when(() -> Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
 		
-		when(Context.getAdministrationService()).thenReturn(administrationService);
+		contextMock.when(() -> Context.getAdministrationService()).thenReturn(administrationService);
 		when(administrationService.getGlobalProperty("bahmni.primaryIdentifierType")).thenReturn("dead-cafe");
-		when(Context.getPatientService()).thenReturn(patientService);
+		contextMock.when(() -> Context.getPatientService()).thenReturn(patientService);
 		PatientIdentifierType patientIdentifierType = new PatientIdentifierType(1);
 		patientIdentifierType.setName("abcd");
 		PatientIdentifierType patientIdentifierType2 = new PatientIdentifierType(1);

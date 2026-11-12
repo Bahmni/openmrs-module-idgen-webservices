@@ -2,17 +2,16 @@ package org.openmrs.module.idgen.webservices.controller;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.idgen.contract.IdentifierSource;
 import org.openmrs.module.idgen.contract.IdentifierType;
 import org.openmrs.module.idgen.webservices.services.IdentifierTypeServiceWrapper;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -21,12 +20,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(Context.class)
 public class IdgenIdentifierTypeControllerTest {
 	
 	@InjectMocks
@@ -35,31 +32,38 @@ public class IdgenIdentifierTypeControllerTest {
 	@Mock
 	private IdentifierTypeServiceWrapper serviceWrapper;
 	
+	private MockedStatic<Context> contextMock;
+	
 	@Before
 	public void before() throws Exception {
 		initMocks(this);
-		mockStatic(Context.class);
+		contextMock = mockStatic(Context.class);
+	}
+	
+	@After
+	public void after() {
+		contextMock.close();
 	}
 	
 	@Test
 	public void shouldRespondWith401WhenNotAuthenticated() throws IOException {
-		when(Context.isAuthenticated()).thenReturn(false);
+		contextMock.when(() -> Context.isAuthenticated()).thenReturn(false);
 		ResponseEntity<String> response = controller.getPrimaryAndExtraIdentifierTypes();
 		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
 	}
 	
 	@Test
 	public void shouldRespondWith401WhenGetIdentifierTypePrivilegeIsNotGivenToUser() throws IOException {
-		when(Context.isAuthenticated()).thenReturn(true);
-		when(Context.hasPrivilege("Get Identifier Types")).thenReturn(false);
+		contextMock.when(() -> Context.isAuthenticated()).thenReturn(true);
+		contextMock.when(() -> Context.hasPrivilege("Get Identifier Types")).thenReturn(false);
 		ResponseEntity<String> response = controller.getPrimaryAndExtraIdentifierTypes();
 		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
 	}
 	
 	@Test
 	public void ShouldReturnAllIdentifierType() throws Exception {
-		when(Context.isAuthenticated()).thenReturn(true);
-		when(Context.hasPrivilege("Get Identifier Types")).thenReturn(true);
+		contextMock.when(() -> Context.isAuthenticated()).thenReturn(true);
+		contextMock.when(() -> Context.hasPrivilege("Get Identifier Types")).thenReturn(true);
 		
 		final IdentifierSource identifierSource = new IdentifierSource("source-uuid", "some name", "SOM");
 		final IdentifierType bahmniIdentifierType = new IdentifierType("uuid", "bahmni", "description", ".*", true, true,

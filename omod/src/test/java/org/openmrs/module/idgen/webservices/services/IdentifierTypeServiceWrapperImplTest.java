@@ -3,19 +3,20 @@ package org.openmrs.module.idgen.webservices.services;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.PatientService;
@@ -25,11 +26,7 @@ import org.openmrs.module.idgen.contract.IdentifierSource;
 import org.openmrs.module.idgen.contract.IdentifierType;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
 import org.openmrs.module.idgen.webservices.IdgenWsConstants;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(Context.class)
 public class IdentifierTypeServiceWrapperImplTest {
 	
 	@Mock
@@ -43,12 +40,19 @@ public class IdentifierTypeServiceWrapperImplTest {
 	
 	private IdentifierTypeServiceWrapperImpl serviceWrapperImp;
 	
+	private MockedStatic<Context> contextMock;
+	
 	@Before
 	public void setUp() throws Exception {
 		initMocks(this);
-		mockStatic(Context.class);
+		contextMock = mockStatic(Context.class);
 		serviceWrapperImp = new IdentifierTypeServiceWrapperImpl();
 		
+	}
+	
+	@After
+	public void tearDown() {
+		contextMock.close();
 	}
 	
 	@Test
@@ -60,9 +64,9 @@ public class IdentifierTypeServiceWrapperImplTest {
 		final IdentifierType extraIdentifierType2 = new IdentifierType("extra-identifier-type-uuid2", "phone no",
 		        "description", ".*", false, false, new ArrayList<IdentifierSource>());
 		
-		when(Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
+		contextMock.when(() -> Context.getService(IdentifierSourceService.class)).thenReturn(identifierSourceService);
 		
-		when(Context.getAdministrationService()).thenReturn(administrationService);
+		contextMock.when(() -> Context.getAdministrationService()).thenReturn(administrationService);
 		when(administrationService.getGlobalProperty(IdgenWsConstants.GP_PRIMARY_IDTYPE))
 		        .thenReturn("primary-identifier-type-uuid");
 		when(administrationService.getGlobalProperty(IdgenWsConstants.GP_EXTRA_IDTYPES))
