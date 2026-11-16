@@ -23,8 +23,8 @@
     
     <properties>
         <openmrsCoreVersion>2.8.10</openmrsCoreVersion>
-        <webservicesRestModuleVersion>2.29.0</webservicesRestModuleVersion>
-        <idGenVersion>4.7.0</idGenVersion>
+        <webservicesRestModuleVersion>3.6.0-SNAPSHOT</webservicesRestModuleVersion>
+        <idGenVersion>6.0.0-SNAPSHOT</idGenVersion>
         <javaxServletApiVersion>4.0.1</javaxServletApiVersion>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
