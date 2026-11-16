@@ -51,8 +51,10 @@ public class IdentifierTypeServiceWrapperImplTest {
 	}
 	
 	@After
-	public void tearDown() {
-		contextMock.close();
+	public void after() {
+		if (contextMock != null) {
+			contextMock.close();
+		}
 	}
 	
 	@Test

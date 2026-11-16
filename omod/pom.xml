@@ -58,12 +58,19 @@
             <type>pom</type>
             <scope>test</scope>
             <exclusions>
+                <!-- Guard only: openmrs-test 2.7.9 and later no longer ship PowerMock, so this is a
+                     no-op against 2.8.10. Kept so a stale or older openmrs-test cannot reintroduce it. -->
                 <exclusion>
                     <groupId>org.powermock</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- Provides the inline mock maker that Mockito.mockStatic needs on Mockito 3.x.
+             On JDK 8 openmrs-test resolves mockito-core 3.12.4, which matches this version.
+             On JDK 17+ the openmrs parent's "mockito" profile resolves mockito-core 5.6.0 (inline by
+             default), so this jar is redundant there but harmless. Keep it aligned with mockito-core
+             on JDK 8 if openmrsCoreVersion changes. -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>

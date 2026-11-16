@@ -42,7 +42,9 @@ public class IdgenIdentifierTypeControllerTest {
 	
 	@After
 	public void after() {
-		contextMock.close();
+		if (contextMock != null) {
+			contextMock.close();
+		}
 	}
 	
 	@Test

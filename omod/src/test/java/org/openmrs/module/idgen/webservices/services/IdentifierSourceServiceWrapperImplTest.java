@@ -53,7 +53,9 @@ public class IdentifierSourceServiceWrapperImplTest {
 	
 	@After
 	public void after() {
-		contextMock.close();
+		if (contextMock != null) {
+			contextMock.close();
+		}
 	}
 	
 	@Test
